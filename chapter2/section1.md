@@ -12,7 +12,7 @@
 
 4、对于实时性要求较高的处理，Weex 允许第三方实现 native 的定制需求来保证体验的流畅性。
 
-性能展示图片
+性能展示图片   在加载时间、帧率、内存消耗、CPU占用（包括静默和峰值）等多个方面，Weex都表现得非常出色
 
 https:\/\/segmentfault.com\/img\/bVsxT2
 
@@ -33,4 +33,8 @@ http:\/\/s2.51cto.com\/wyfs02\/M00\/7F\/96\/wKiom1cjMzGjl3jEAABdOiQ3Kf0180.jpg-s
 
 
 
+
+
+
+输入是Virtual DOM输出是native或者H5 view，还原成内存中的树型数据结构，再创建view，把事件绑定在view上，把view基本属性设上去。Weex Render会分三个线程，不同的线程负责不同的事情，让JS线程优先保障流畅性。
 
