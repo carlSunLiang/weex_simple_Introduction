@@ -86,13 +86,228 @@ window.weex.init({
     })
 ```
 
-
-
 在js中我们知道定时器有两种，超时执行定时器和间隔执行定时器。但是在原生app中，只有超时执行定时器。可能weex为了兼容原生开发，只提供了一种定时器--超时执行定时器（setTimeout）。
+
+```
+'use strict'
+
+const timer = {
+  setTimeout: function (timeoutCallbackId, delay) {
+/*sender = Sender {
+                instanceId: "http://127.0.0.1:8081/weex_tmp/h5_render/?hot-reload_controller&page=tech_list.js&loader=xhr",
+                 weexInstance: Weex
+          }*/
+    const sender = this.sender
+    const timerId = setTimeout(function () {
+      sender.performCallback(timeoutCallbackId)
+    }, delay)
+    return timerId
+  },
+  clearTimeout: function (timerId) {
+    clearTimeout(timerId)
+  }
+}
+timer._meta = {
+  timer: [{
+    name: 'setTimeout',
+    args: ['function', 'number']
+  }, {
+    name: 'clearTimeout',
+    args: ['number']
+  }]
+}
+module.exports = timer
+/** WEBPACK FOOTER **
+ ** ./html5/browser/api/timer.js
+ **/
+```
+
+我们可以看到这里面定义了两个方法，setTimeout和claerTimeout。
+
+```
+timer._meta = {
+  timer: [{
+    name: 'setTimeout',
+    args: ['function', 'number']
+  }, {
+    name: 'clearTimeout',
+    args: ['number']
+  }]
+}
+```
+
+这句代码中.\_meta是为weex注册apimodule使用的。这在browser\/api\/index.js中可以得到验证：
+
+
+
+http:\/\/www.weexstore.com\/image\/show\/attachments-2016-08-eAh6qPgq57b5274951fde.png
+
+如果想使用setInterval，那么可以使用setTimeout模拟，代码如下：
+
+```
+var intervalId=function(){
+                require('@weex-module/timer').setTimeout(function(){
+                    _this.user.timeoutNum=_this.user.timeoutNum-1;
+                    intervalId();
+                },1000);        
+          };
+      intervalId();
+```
+
+html5\/shared\/console
+
+weex对console类进行了一个封装，我们在程序里调用的console.log\(\)不再直接是直接调用系统的了，而是调用Weex的封装了
+
+```
+const { console, nativeLog } = global
+const LEVELS = ['error', 'warn', 'info', 'log', 'debug']
+const levelMap = {}
+
+generateLevelMap()
+
+/* istanbul ignore if */
+if (
+  typeof console === 'undefined' || // Android
+  (global.WXEnvironment && global.WXEnvironment.platform === 'iOS') // iOS
+) {
+  global.console = {
+    debug: (...args) => {
+      if (checkLevel('debug')) { nativeLog(...format(args), '__DEBUG') }
+    },
+    log: (...args) => {
+      if (checkLevel('log')) { nativeLog(...format(args), '__LOG') }
+    },
+    info: (...args) => {
+      if (checkLevel('info')) { nativeLog(...format(args), '__INFO') }
+    },
+    warn: (...args) => {
+      if (checkLevel('warn')) { nativeLog(...format(args), '__WARN') }
+    },
+    error: (...args) => {
+      if (checkLevel('error')) { nativeLog(...format(args), '__ERROR') }
+    }
+  }
+}
+else { // HTML5
+  const { debug, log, info, warn, error } = console
+  console.__ori__ = { debug, log, info, warn, error }
+  console.debug = (...args) => {
+    if (checkLevel('debug')) { console.__ori__.debug.apply(console, args) }
+  }
+  console.log = (...args) => {
+    if (checkLevel('log')) { console.__ori__.log.apply(console, args) }
+  }
+  console.info = (...args) => {
+    if (checkLevel('info')) { console.__ori__.info.apply(console, args) }
+  }
+  console.warn = (...args) => {
+    if (checkLevel('warn')) { console.__ori__.warn.apply(console, args) }
+  }
+  console.error = (...args) => {
+    if (checkLevel('error')) { console.__ori__.error.apply(console, args) }
+  }
+}
+
+function generateLevelMap () {
+  LEVELS.forEach(level => {
+    const levelIndex = LEVELS.indexOf(level)
+    levelMap[level] = {}
+    LEVELS.forEach(type => {
+      const typeIndex = LEVELS.indexOf(type)
+      if (typeIndex <= levelIndex) {
+        levelMap[level][type] = true
+      }
+    })
+  })
+}
+
+function normalize (v) {
+  const type = Object.prototype.toString.call(v)
+  if (type.toLowerCase() === '[object object]') {
+    v = JSON.stringify(v)
+  }
+  else {
+    v = String(v)
+  }
+  return v
+}
+
+function checkLevel (type) {
+  const logLevel = (global.WXEnvironment && global.WXEnvironment.logLevel) || 'log'
+  return levelMap[logLevel] && levelMap[logLevel][type]
+}
+
+function format (args) {
+  return args.map(v => normalize(v))
+}
+
+
+
+/** WEBPACK FOOTER **
+ ** ./html5/shared/console.js
+ **/
+```
+
+generateLevelMap \(\)是对日志事件做等级区分，即建立一个二维数组，比较任意两个的优先级。
+
+normalize\(\)是对参数v做json序列化工作。
+
+if\(\){}else{}则是对console中的每个函数进行调用。比如当调用console.warn\(\)是先检查这个日志等级是否高于当前的等级，然后调用相应方法。
+
+
+
+promise封装
+
+stream 两种方法sendhttp和fetch   \_jsonp.apply\(this, \_callArgs\)和\_xhr.apply\(this, \_callArgs\)这两个方法
+
+sender提供了一个在原生调用js上提供了一个桥。
+
+. 找到需要执行函数的实例
+
+. 找到这一个方法
+
+. 注入调用参数
+
+. 启动调用
+
+.调用结果的记录
+
+
 
 
 
 实战可能出现的问题
 
 http:\/\/www.weexstore.com\/image\/show\/attachments-2016-08-dLe1pjrG57b571f20b196.png
+
+
+
+调试weex
+
+```
+1、console.error(this); 
+```
+
+http:\/\/www.weexstore.com\/image\/show\/attachments-2016-08-ABsBfaDU57b528da47ce0.png
+
+http:\/\/www.weexstore.com\/image\/show\/attachments-2016-08-72WGrWPC57b529155dca6.png
+
+缺点： 重新刷新页面
+
+```
+ 2、debugger就可以自动进入到那断点
+```
+
+```
+ 3、webpack 配置
+   devtool: 'source-map' 'display-error-details': true
+```
+
+
+
+
+
+
+
+
 
