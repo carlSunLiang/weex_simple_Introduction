@@ -32,5 +32,31 @@ http:\/\/s3.51cto.com\/wyfs02\/M01\/7F\/96\/wKiom1cjMx2wbShGAAB09XtNG78519.jpg-s
 
 http:\/\/s2.51cto.com\/wyfs02\/M00\/7F\/96\/wKiom1cjMzGjl3jEAABdOiQ3Kf0180.jpg-s\_1413676178.jpg
 
-输入是Virtual DOM输出是native或者H5 view，还原成内存中的树型数据结构，再创建view，把事件绑定在view上，把view基本属性设上去。Weex Render会分三个线程，不同的线程负责不同的事情，让JS线程优先保障流畅性。
+输入是Virtual DOM输出是native或者H5 view，还原成内存中的树型数据结构，再创建view，把事件绑定在view上，把view基本属性设上去。Weex Render会分三个线程，不同的线程负责不同的事情，让JS线程优先保障流畅性。忽略了一个事实，那就是Native UI开发中通常没有JS资源在服务器端加载。Weex会把JS内置到客户端里，以免除下载的问题，从而更为有效地提升性能。
+
+
+
+
+
+
+
+Weex的三种工作模式
+
+1. 全页模式
+
+目前支持单页使用或整个App使用Weex开发（还不完善，需要开发Router和生命周期管理），这是主推的模式，可以类比RN。
+
+2. Native Component模式
+
+把Weex当作一个iOS\/Android组件来使用，类比ImageView。这类需求遍布手淘主链路，如首页、主搜结果、交易组件化等，这类Native页面主体已经很稳定，但是局部动态化需求旺盛导致频繁发版，解决这类问题也是Weex的重点。
+
+3. H5 Component模式
+
+在H5种使用Weex，类比WVC。一些较复杂或特殊的H5页面短期内无法完全转为Weex全页模式（或RN），比如互动类页面、一些复杂频道页等。这个痛点的解决办法是：在现有的H5页面上做微调，引入Native解决长列表内存暴增、滚动不流畅、动画\/手势体验差等问题。
+
+另外，WVC将会融入到Weex中，成为Weex的H5 Components模式。
+
+
+
+
 
