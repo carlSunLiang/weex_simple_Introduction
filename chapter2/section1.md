@@ -24,17 +24,13 @@ https:\/\/segmentfault.com\/img\/bVsxUT
 
 https:\/\/segmentfault.com\/img\/bVsxU0
 
+http:\/\/s3.51cto.com\/wyfs02\/M02\/7F\/96\/wKiom1cjM03i1TsrAAB5UGxTLnM104.jpg-s\_472785496.jpg
+
 原理图
 
 http:\/\/s3.51cto.com\/wyfs02\/M01\/7F\/96\/wKiom1cjMx2wbShGAAB09XtNG78519.jpg-s\_2897733784.jpg
 
 http:\/\/s2.51cto.com\/wyfs02\/M00\/7F\/96\/wKiom1cjMzGjl3jEAABdOiQ3Kf0180.jpg-s\_1413676178.jpg
-
-
-
-
-
-
 
 输入是Virtual DOM输出是native或者H5 view，还原成内存中的树型数据结构，再创建view，把事件绑定在view上，把view基本属性设上去。Weex Render会分三个线程，不同的线程负责不同的事情，让JS线程优先保障流畅性。
 
