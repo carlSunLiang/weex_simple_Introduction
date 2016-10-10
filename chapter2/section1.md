@@ -50,8 +50,6 @@ Weex的三种工作模式
 
 另外，WVC将会融入到Weex中，成为Weex的H5 Components模式。
 
-
-
 render渲染原理
 
 weex h5 渲染经历3次文档加载： 加载index.html 加载weex框架 加载我们写的程序
@@ -90,7 +88,7 @@ window.weex.init({
 
 
 
-
+在js中我们知道定时器有两种，超时执行定时器和间隔执行定时器。但是在原生app中，只有超时执行定时器。可能weex为了兼容原生开发，只提供了一种定时器--超时执行定时器（setTimeout）。
 
 
 
