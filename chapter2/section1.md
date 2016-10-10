@@ -138,8 +138,6 @@ timer._meta = {
 
 这句代码中.\_meta是为weex注册apimodule使用的。这在browser\/api\/index.js中可以得到验证：
 
-
-
 http:\/\/www.weexstore.com\/image\/show\/attachments-2016-08-eAh6qPgq57b5274951fde.png
 
 如果想使用setInterval，那么可以使用setTimeout模拟，代码如下：
@@ -254,8 +252,6 @@ normalize\(\)是对参数v做json序列化工作。
 
 if\(\){}else{}则是对console中的每个函数进行调用。比如当调用console.warn\(\)是先检查这个日志等级是否高于当前的等级，然后调用相应方法。
 
-
-
 promise封装
 
 stream 两种方法sendhttp和fetch   \_jsonp.apply\(this, \_callArgs\)和\_xhr.apply\(this, \_callArgs\)这两个方法
@@ -278,9 +274,9 @@ sender提供了一个在原生调用js上提供了一个桥。
 
 实战可能出现的问题
 
+
+
 http:\/\/www.weexstore.com\/image\/show\/attachments-2016-08-dLe1pjrG57b571f20b196.png
-
-
 
 调试weex
 
@@ -302,12 +298,4 @@ http:\/\/www.weexstore.com\/image\/show\/attachments-2016-08-72WGrWPC57b529155dc
  3、webpack 配置
    devtool: 'source-map' 'display-error-details': true
 ```
-
-
-
-
-
-
-
-
 
