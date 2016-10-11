@@ -268,13 +268,7 @@ sender提供了一个在原生调用js上提供了一个桥。
 
 .调用结果的记录
 
-
-
-
-
 实战可能出现的问题
-
-
 
 http:\/\/www.weexstore.com\/image\/show\/attachments-2016-08-dLe1pjrG57b571f20b196.png
 
@@ -298,4 +292,6 @@ http:\/\/www.weexstore.com\/image\/show\/attachments-2016-08-72WGrWPC57b529155dc
  3、webpack 配置
    devtool: 'source-map' 'display-error-details': true
 ```
+
+# **推荐官方 Devtools**
 
